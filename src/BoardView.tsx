@@ -56,7 +56,14 @@ export default function TierBoard() {
                 .filter((i) => i.tier === t.name)
                 .map((i) => (
                   <div className="item" title={i.description} key={i.id}>
-                    {i.label}
+                    {i.logo && (
+                      <img
+                        className="logo"
+                        src={i.logo}
+                        alt={`${i.label} logo`}
+                      />
+                    )}
+                    <span>{i.label}</span>
                   </div>
                 ))}
             </div>
@@ -71,7 +78,14 @@ export default function TierBoard() {
               .filter((i) => i.tier === null)
               .map((i) => (
                 <div className="item" key={i.id} title={i.description}>
-                  {i.label}
+                  {i.logo && (
+                    <img
+                      className="logo"
+                      src={i.logo}
+                      alt={`${i.label} logo`}
+                    />
+                  )}
+                  <span>{i.label}</span>
                 </div>
               ))}
           </div>

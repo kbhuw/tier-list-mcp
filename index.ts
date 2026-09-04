@@ -1,3 +1,4 @@
+import { withLogos } from "./src/logos.js";
 import { MCPServer } from "mcp-use";
 import { z } from "zod";
 import {
@@ -21,7 +22,7 @@ const server = new MCPServer({
     "Create, rank, preview, and download tier lists entirely in chat.",
   icons: [{ src: "icon.svg", mimeType: "image/svg+xml", sizes: ["128x128"] }],
   instructions:
-    "When given a category, research or propose relevant options using your own knowledge/search tools, then call create-tier-list. Do not ask the user to supply every option. Do not invent sources or silently rank anything. Show the returned image/card and options. For each user ranking, pass the most recent complete board to rank-tier-list. Always show the new image. Preserve unmentioned rankings. For undo, use the previous board snapshot. On download call download-tier-list and save/attach the returned PNG resource; do not claim a download until the file is saved. This is a standalone tier-list maker, not affiliated with TierMaker.com.",
+    "When given a category, research or propose relevant options using your own knowledge/search tools, then call create-tier-list. Do not ask the user to supply every option. Include each company’s official source URL or logoDomain so logos are loaded automatically. Do not invent sources or silently rank anything. Show the returned image/card and options. For each user ranking, pass the most recent complete board to rank-tier-list. Always show the new image. Preserve unmentioned rankings. For undo, use the previous board snapshot. On download call download-tier-list and save/attach the returned PNG resource; do not claim a download until the file is saved. This is a standalone tier-list maker, not affiliated with TierMaker.com.",
 });
 const output = z.object({
   board: boardSchema,
@@ -78,7 +79,7 @@ export const createTierList = server.tool(
     },
   },
   async ({ title, options, tiers }) =>
-    result(createBoard(title, options, tiers)),
+    result(await withLogos(createBoard(title, options, tiers))),
 );
 export const rankTierList = server.tool(
   {

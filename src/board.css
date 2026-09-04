@@ -129,3 +129,17 @@ footer {
     font-size: 12px;
   }
 }
+
+.item {
+  flex-direction: column;
+  gap: 7px;
+  min-height: 100px;
+}
+.logo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 7px;
+  padding: 4px;
+}

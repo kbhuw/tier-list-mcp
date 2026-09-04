@@ -54,7 +54,7 @@ The next result shows the correction. To undo, the host passes the previous snap
 
 Every tool returns `structuredContent.board`; retain this exact object for the next call. Tools are stateless: boards live in the conversation, so separate users never share mutable server state and server restarts do not lose a board. If a client discards the conversation's board, restore it from a saved JSON snapshot. There is no server-side account, saved-list browser, or cross-chat library.
 
-Items are readable text cards, not scraped logos. Optional descriptions and source URLs are preserved for the host. No external image fetching, browser credentials, filesystem paths, or outbound service access is accepted. Limit: 80 options, 12 tiers. Inputs are validated; invalid moves fail the whole batch. Tool annotations are read-only because no server or external state is changed.
+Company cards include logos and names. Provide each option’s official `source` URL or `logoDomain`; creation fetches its favicon through Google’s fixed favicon service, normalizes it to a small PNG, and embeds it in the board. Pre-supplied PNG data URLs are also supported via `logo`. Embedded logos persist across moves and exports without further network requests. Missing or invalid icons fall back to the name. Optional descriptions and source URLs are preserved for the host. Arbitrary image URLs, browser credentials, and filesystem paths are not accepted. Limit: 80 options, 12 tiers. Inputs are validated; invalid moves fail the whole batch. Tool annotations are read-only because no server or external state is changed.
 
 ## Evaluation
 
@@ -78,4 +78,4 @@ These deterministic tests validate the tool flow. They do **not** establish that
 
 ## Privacy and deployment
 
-The application stores no board data. MCP clients and hosting providers may retain tool-call logs; configure their retention separately. The unauthenticated endpoint exposes only pure rendering tools, but a public host should apply request limits and authentication appropriate to its audience. No TierMaker cookies or tokens belong in this project.
+The application stores no board data. Logo lookup sends company domains to Google’s favicon service. MCP clients and hosting providers may retain tool-call logs; configure their retention separately. The unauthenticated endpoint exposes only pure rendering tools, but a public host should apply request limits and authentication appropriate to its audience. No TierMaker cookies or tokens belong in this project.

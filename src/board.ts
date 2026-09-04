@@ -9,6 +9,21 @@ export const itemSchema = z.object({
   label: z.string().trim().min(1).max(60),
   description: z.string().max(240).optional(),
   source: z.url().optional(),
+  logoDomain: z
+    .string()
+    .regex(
+      /^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,63}$/,
+    )
+    .optional()
+    .describe(
+      "Official company domain for its logo; defaults to source hostname",
+    ),
+  logo: z
+    .string()
+    .max(30000)
+    .regex(/^data:image\/png;base64,[A-Za-z0-9+/]+={0,2}$/)
+    .optional()
+    .describe("Embedded PNG logo, retained unchanged from the returned board"),
   tier: z.string().nullable(),
 });
 export const boardSchema = z.object({
